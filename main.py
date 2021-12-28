@@ -31,13 +31,13 @@ def header():
 
     col1, col2 = st.columns([3,1])
     with col1:
-        st.markdown("Choosing optimal vibroisolation, can be a cumbersome task. Even though the majority of complex dynamic systems cannot be simplified into a simple 1-DoF system. For a simple vibroisolation prediction, we can utilize a simple 1-DoF dynamic systen, to determine the influence of mass $m$, damping $c$ and stifness $k$ on the natural frequncy and later on isolation effectiveness.")
+        st.markdown("Choosing an optimal vibroisolation can be a cumbersome task. Majority of complex dynamic systems cannot be simplified into a simple 1-DoF system. However, to quickly access a simple vibroisolation prediction, we can utilize a simple 1-DoF dynamic systen to determine the influence of oscilating mass $m$, damping $c$ and stifness $k$ on the natural frequncy and later on isolation effectiveness.")
     with col2:
         st.image("sdof.png", width = 100)
 
     st.sidebar.image("https://pyfbs.readthedocs.io/en/latest/_static/logo-big.png",width = 250)
     st.sidebar.title("A simple 1-DoF calculator")
-    st.sidebar.write("Vibroisolation calculator based on a simple 1-DoF dynamic system. After defining mass, stifness and damping characteristics, Frequency Response Function is automaticaly generated. Based on the rotatinal speed, we can estimate the isolation effectiveness. ")
+    st.sidebar.write("We present to you a vibroisolation calculator, based on a simple 1-DoF dynamic system. After defining mass, stifness and damping characteristics, frequency response function is automaticaly generated. Based on the rotatinal speed we can estimate the isolation effectiveness. ")
 
 def app():
 
