@@ -37,29 +37,33 @@ def header():
 
     st.sidebar.image("https://pyfbs.readthedocs.io/en/latest/_static/logo-big.png",width = 250)
     st.sidebar.title("A simple 1-DoF calculator")
-    st.sidebar.write("We present to you a vibroisolation calculator, based on a simple 1-DoF dynamic system. After defining mass, stifness and damping characteristics, frequency response function is automaticaly generated. Based on the rotatinal speed we can estimate the isolation effectiveness. ")
+    st.sidebar.write("We present to you a vibroisolation calculator, based on a simple 1-DoF dynamic system. After defining mass, stiffness and damping characteristics, frequency response function is automaticaly generated. Based on the rotatinal speed we can estimate the isolation effectiveness. ")
 
 def app():
 
     st.header("Math theory")
     my_expander = st.expander(label='Math is hidden by default to not scare people, click to expand!')
     with my_expander:
-        st.markdown("Consider a simple 1-DoF system with a mass $m$, suspended on a support with a stifness $k$ and damping $c$. The displacement of mass is denoted with a variable $u$ and the mass is excited with a harmonic force denoted with $f$.")
+        st.markdown("Consider a simple 1-DoF system with a mass $m$, suspended on a support with a stiffness $k$ and damping $c$. The displacement of mass is denoted with a variable $u$ and the mass is excited with a harmonic force denoted with $f$.")
 
         st.markdown("The equation of motion for the particular 1-DoF system can be written as follows:")
 
         st.markdown(r"""$m \ddot{u} + c\dot{u} + k u = f$""")
-        st.markdown("The equation can be solved analyticaly... ")
+        st.markdown("The equation can be solved analyticaly, by defining: ")
+        st.markdown(r""" $\frac{k}{m} = \omega_0^2  \quad \text{and} \quad \frac{c}{m}=2\delta\omega_0$""")
+        st.markdown("By substituting back into equation we can derive:")
 
 
-        st.markdown(r"""$(-\omega^2m+i c\omega + k)u = f$""")
-        st.markdown("... ")
+        #st.markdown(r"""$(-\omega^2m+i c\omega + k)u = \frac{f}{m}$""")
+        #st.markdown("... ")
 
-        st.markdown(r"""$\omega_0 = \sqrt{\frac{k}{m}}$""")
-        st.markdown("... ")
+        #st.markdown("... ")
 
-        st.markdown(r"""$\bigg(1-\big(\frac{\omega}{\omega_0}\big)^2+2ic\big(\frac{\omega}{\omega_0}\big)\bigg)u = f$""")
-        st.markdown("... ")
+        st.markdown(r""" $\bigg(1-\big(\frac{\omega_0}{\omega}\big)^2+2i\delta\big(\frac{\omega_0}{\omega}\big)\bigg)u = \frac{f}{m}$""")
+        st.markdown("Finnaly frequency response function is defined as an inverse:")
+        st.markdown(r""" $Y = \bigg(1-\big(\frac{\omega_0}{\omega}\big)^2+2i\delta\big(\frac{\omega_0}{\omega}\big)\bigg)^{-1}$ """)
+
+
 
 
 
@@ -70,7 +74,7 @@ def app():
 
     with col1:
 
-        stifness = st.number_input(r"""Stifness [N/m]""", min_value=.1,value =1.,format = "%f")
+        stifness = st.number_input(r"""Stiffness [N/m]""", min_value=.1,value =1.,format = "%f")
 
     with col2:
         mass = st.number_input('Mass [kg]', min_value=.1,value =1.,format = "%f")
@@ -105,24 +109,36 @@ def app():
     })
 
     width = 610
-    height = 400
+    height = 500
     phase = alt.Chart(source).mark_line().encode(
         x = alt.X('Frequency'),
         y= alt.Y('Phase', scale=alt.Scale(type = "linear",base=10,domain=(-190, 10)))
-    ).properties(width=width,height=1/3*height).add_selection(resize)
-
-
-    amplitude = alt.Chart(source).mark_line().encode(
-        x='Frequency',
-        y=alt.Y('Amplitude', scale=alt.Scale(type="log", base=10))
-    ).properties(width=width,height=1/2*height).add_selection(resize)
-
-    AP = alt.vconcat(amplitude,phase).configure_axis(
+    ).add_selection(resize).properties(height=1 / 3* height).configure_axis(
     labelFontSize=14,
     titleFontSize=14
     ).configure_line(
     size=5
 )
+    #.properties(width=width, height=1 / 3 * height)
+
+    amplitude = alt.Chart(source).mark_line().encode(
+        x='Frequency',
+        y=alt.Y('Amplitude', scale=alt.Scale(type="log", base=10))
+    ).add_selection(resize).properties(height=1 / 2 * height).configure_axis(
+    labelFontSize=14,
+    titleFontSize=14
+    ).configure_line(
+    size=5
+)
+    #.properties(width=width, height=1 / 2 * height)
+
+    #AP = alt.vconcat(amplitude,phase).configure_axis(
+    #abelFontSize=14,
+    #titleFontSize=14
+    #).configure_line(
+    #size=5
+    #)
+
     nearest = alt.selection(type='single', nearest=True, on='mouseover',
                             fields=['Frequency'], empty='none')
 
@@ -153,13 +169,15 @@ def app():
         nearest
     )
 
-    st.altair_chart(AP, use_container_width=True)
+    #st.altair_chart(AP, use_container_width=True)
+    st.altair_chart(amplitude, use_container_width=True)
+    st.altair_chart(phase, use_container_width=True)
 
     st.header("Isolation Effectiveness")
 
     #st.markdown("Bla bla bla")
 
-    gg = alt.layer(effectiveness, selectors, points, rules, text).properties(width=width, height=0.8*height).add_selection(resize).configure_axis(labelFontSize=14,titleFontSize=14).configure_line(size=5)
+    gg = alt.layer(effectiveness, selectors, points, rules, text).properties(width=width, height=300).add_selection(resize).configure_axis(labelFontSize=14,titleFontSize=14).configure_line(size=5)
     st.altair_chart(gg, use_container_width=True)
 
 
@@ -172,7 +190,7 @@ def app():
     with col1:
         operating = st.number_input(r"""Rotational speed [rpm]""", min_value=.1,value =1.,format = "%f")
         r = operating/60 / w0
-        effect =     T = 1/(np.sqrt(1 + (2 * d * r) ** 2) / np.sqrt((1 - r ** 2) ** 2 + (2 * d * r) ** 2))
+        effect = 1/(np.sqrt(1 + (2 * d * r) ** 2) / np.sqrt((1 - r ** 2) ** 2 + (2 * d * r) ** 2))
 
     with col2:
         st.markdown(r"""Natural frequency of the sytem is equal to $\omega_0 = %4.1f \text{ Hz}$""" % (w0))
