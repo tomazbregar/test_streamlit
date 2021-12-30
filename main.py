@@ -189,12 +189,13 @@ def app():
 
     with col1:
         operating = st.number_input(r"""Rotational speed [rpm]""", min_value=.1,value =1.,format = "%f")
-        r = operating/60 / w0
+        operating_omega = operating/60
+        r = operating_omega / w0
         effect = 1/(np.sqrt(1 + (2 * d * r) ** 2) / np.sqrt((1 - r ** 2) ** 2 + (2 * d * r) ** 2))
 
     with col2:
         st.markdown(r"""Natural frequency of the sytem is equal to $\omega_0 = %4.1f \text{ Hz}$""" % (w0))
-        st.markdown(r"""Rotational speed is equal to $\omega = %4.2f \text{ Hz}$""" % r)
+        st.markdown(r"""Rotational speed is equal to $\omega = %4.2f \text{ Hz}$""" % operating_omega)
 
         st.markdown("Isolation effectiveness is equal to  $E = %4.2f$" % effect)
 
