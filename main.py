@@ -29,11 +29,11 @@ alt.themes.enable('sfmono')
 def header():
     st.title("Vibroisolation calculator", anchor=None)
 
-    col1, col2 = st.columns([3,1])
+    col1, col2 = st.columns([3,1.1])
     with col1:
         st.markdown("Choosing an optimal vibroisolation can be a cumbersome task. Majority of complex dynamic systems cannot be simplified into a simple 1-DoF system. However, to quickly access a simple vibroisolation prediction, we can utilize a simple 1-DoF dynamic systen to determine the influence of oscilating mass $m$, damping $c$ and stifness $k$ on the natural frequncy and later on isolation effectiveness.")
     with col2:
-        st.image("sdof.png", width = 100)
+        st.image("sdof.png", width = 120)
 
     st.sidebar.image("https://pyfbs.readthedocs.io/en/latest/_static/logo-big.png",width = 250)
     st.sidebar.title("A simple 1-DoF calculator")
@@ -185,6 +185,10 @@ def app():
 
     col1, col2 = st.columns([0.9, 2])
 
+    #st.header(":books: Want to know more?")
+    #st.info("Head over to [www.pyfbs.com](www.pyfbs.com) to get more information about the pyFBS. Or simply fill-in the contact ")
+
+
 
 
     with col1:
@@ -201,9 +205,12 @@ def app():
 
 
 def get_in_touch():
+
     st.sidebar.header(":mailbox: Get In Touch With Us!")
-    st.sidebar.markdown(r"""Let us know what you think. Do you have an idea for a simple webapp for structural dynamics? 
-    """)
+    st.sidebar.markdown(r""" Do you have an idea for a simple webapp for structural dynamics? Need help with a dynamic problem? """)
+
+    st.sidebar.markdown(r"""Contact us via the form bellow. """)
+
 
     contact_form = """
     <form 
@@ -225,7 +232,8 @@ def get_in_touch():
 
     st.sidebar.markdown(r"""<div style="text-align: right"> <b>pyFBS Team</b> </div>""", unsafe_allow_html= True)
 
-
+    #st.sidebar.header(":books: Want to know more?")
+    #st.sidebar.info("Head over to [www.pyfbs.com](www.pyfbs.com)")
 hide_st_style = """ 
                 <style>
                 #MainMenu {visibility: hidden;}
