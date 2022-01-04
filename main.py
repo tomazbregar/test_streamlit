@@ -31,13 +31,13 @@ def header():
 
     col1, col2 = st.columns([3,1.1])
     with col1:
-        st.markdown("Choosing an optimal vibroisolation can be a cumbersome task. Majority of complex dynamic systems cannot be simplified into a simple 1-DoF system. However, to quickly access a simple vibroisolation prediction, we can utilize a simple 1-DoF dynamic systen to determine the influence of oscilating mass $m$, damping $c$ and stifness $k$ on the natural frequncy and later on isolation effectiveness.")
+        st.markdown("Choosing an optimal vibroisolation can be a cumbersome task. The majority of complex dynamic systems cannot be reduced to a simple 1-DoF system. However, to quickly access a simple vibroisolation prediction, we can utilize a simple 1-DoF dynamical systen and determine the influence of mass $m$, damping $c$ and stiffness $k$ on the natural frequency and isolation effectiveness.")
     with col2:
         st.image("sdof.png", width = 150)
 
     st.sidebar.image("https://pyfbs.readthedocs.io/en/latest/_static/logo-big.png",width = 250)
     st.sidebar.title("A simple 1-DoF calculator")
-    st.sidebar.write("We present to you a vibroisolation calculator, based on a simple 1-DoF dynamic system. After defining mass, stiffness and damping characteristics, frequency response function is automaticaly generated. Based on the rotatinal speed we can estimate the isolation effectiveness. ")
+    st.sidebar.write("We present to you a vibroisolation calculator, based on a simple 1-DoF dynamic system. After defining mass, stiffness and damping characteristics, the corresponding frequency response function is automaticaly generated. Based on the rotational speed we can estimate the isolation effectiveness. ")
 
 def app():
 
@@ -52,7 +52,7 @@ def app():
         st.markdown("By defining ${k}/{m} = \omega_0^2$ and ${c}/{m}=2\delta\omega_0$, and applying Fourier transform we can rewrite the equation: ")
         #st.markdown(r""" $\frac{k}{m} = \omega_0^2  \quad \text{and} \quad \frac{c}{m}=2\delta\omega_0$""")
         #st.markdown("By substituting back into equation we can derive:")
-        st.markdown(r"""$-\omega^2 m U (\omega) + 2 \delta \omega_0 i U(\omega) + \omega_0^2 U(\omega) = {F(\omega)}$""")
+        st.markdown(r"""$-\omega^2 U (\omega) + 2 \delta \omega_0 i \omega U(\omega) + \omega_0^2 U(\omega) =\frac{F(\omega)}{m}$""")
 
 
         #st.markdown(r"""$(-\omega^2m+i c\omega + k)u = \frac{f}{m}$""")
@@ -61,7 +61,7 @@ def app():
         #st.markdown("... ")
 
         #st.markdown(r""" $\bigg(1-\big(\frac{\omega_0}{\omega}\big)^2+2i\delta\big(\frac{\omega_0}{\omega}\big)\bigg)u = \frac{f}{m}$""")
-        st.markdown("Finnaly we can derive frequency response function:")
+        st.markdown("Finnaly, we can derive the frequency response function:")
         st.markdown(r"""$Y (\omega) = \frac{ U (\omega)}{F(\omega)} = \frac{1}{m(\omega_0^2-\omega^2+2\delta\omega_0 i \omega)}$""")
 
 
@@ -208,9 +208,9 @@ def app():
 def get_in_touch():
 
     st.sidebar.header(":mailbox: Get In Touch With Us!")
-    st.sidebar.markdown(r""" Do you have an idea for a simple webapp for structural dynamics? Need help with a dynamic problem? """)
+    st.sidebar.markdown(r""" Do you have ideas for a simple webapps for structural dynamics? Need help with a dynamic problem? """)
 
-    st.sidebar.markdown(r"""Contact us via the form bellow. """)
+    st.sidebar.markdown(r"""Contact us via the form below. """)
 
 
     contact_form = """
@@ -218,7 +218,7 @@ def get_in_touch():
     action="https://formsubmit.co/bregar.toma@gmail.com" 
     method="POST">
         <input type = "text" name= "name" placeholder = "Your name" required>
-        <input type="hidden" name="_cc" value="another@email.com">
+        <input type="hidden" name="_cc" value="info.pyfbs@gmail.com">
         <input type = "email" name= "email" placeholder = "Your email" required>
         <textarea name= "message" placeholder = "Your message here" required>
         <button type = "submit">Send</button>
